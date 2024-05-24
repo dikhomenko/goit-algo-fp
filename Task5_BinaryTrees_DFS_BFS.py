@@ -25,7 +25,7 @@ def add_edges(graph, node, pos, x=0, y=0, layer=1):
             r = add_edges(graph, node.right, pos, x=r, y=y - 1, layer=layer + 1)
     return graph
 
-def draw_tree(tree_root):
+def draw_tree(tree_root, title):
     tree = nx.DiGraph()
     pos = {tree_root.id: (0, 0)}
     tree = add_edges(tree, tree_root, pos)
@@ -35,13 +35,17 @@ def draw_tree(tree_root):
 
     plt.figure(figsize=(8, 5))
     nx.draw(tree, pos=pos, labels=labels, arrows=False, node_size=2500, node_color=colors)
+    plt.title(title)
     plt.show()
 
 def hex_color(value):
     """
     Повертає кольоровий код у форматі hex (#RRGGBB) на основі значення від 0 до 1
     """
-    return f'#{int(value * 255):02x}{int((1 - value) * 255):02x}{int((0.5 + value / 2) * 255):02x}'
+    r = int(0 + (255 - 0) * value)
+    g = int(0 + (255 - 0) * value)
+    b = int(0 + (255 - 0) * value)
+    return f'#{r:02x}{g:02x}{b:02x}'
 
 def bfs_coloring(node):
     queue = [(node, 0)]
@@ -75,8 +79,8 @@ root.right.left = Node(3)
 
 # Відображення дерева з обходом у ширину (BFS)
 bfs_coloring(root)
-draw_tree(root)
+draw_tree(root, "Обхід у ширину (BFS)")
 
 # Відображення дерева з обходом у глибину (DFS)
 dfs_coloring(root)
-draw_tree(root)
+draw_tree(root, "Обхід у глибину (DFS)")
