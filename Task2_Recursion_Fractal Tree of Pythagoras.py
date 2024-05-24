@@ -1,20 +1,34 @@
-from turtle import goto, pu, pd, color, done
+import turtle
 
-def level(ax, ay, bx, by, depth=0):
+def draw_tree(branch_length, depth):
     if depth > 0:
-        dx,dy = bx-ax, ay-by
-        x3,y3 = bx-dy, by-dx
-        x4,y4 = ax-dy, ay-dx
-        x5,y5 = x4 + (dx - dy)/2, y4 - (dx + dy)/2
-        goto(ax, ay), pd()
-        for x, y in ((bx, by), (x3, y3), (x4, y4), (ax, ay)):
-            goto(x, y)
-        pu()
-        level(x4,y4, x5,y5, depth - 1)
-        level(x5,y5, x3,y3, depth - 1)
+        turtle.forward(branch_length)
+        turtle.left(45)
+        draw_tree(branch_length * 0.6, depth - 1)
+        turtle.right(90)
+        draw_tree(branch_length * 0.6, depth - 1)
+        turtle.left(45)
+        turtle.backward(branch_length)
 
-if __name__ == '__main__':
-    color('red', 'yellow')
-    pu()
-    level(-100, 500, 100, 500, depth=8)
-    done()
+def main():
+    screen = turtle.Screen()
+    screen.setup(width=800, height=800)
+    screen.title("Pythagoras Tree Fractal")
+
+    turtle.speed(0)
+    turtle.left(90)
+    turtle.up()
+    turtle.goto(0, -300)
+    turtle.down()
+    turtle.color("red", "yellow")
+
+    # Prompt user for depth level
+    depth = screen.numinput("Input", "Enter recursion depth:", minval=1, maxval=10)
+
+    draw_tree(200, int(depth))
+    
+    turtle.hideturtle()
+    turtle.done()
+
+if __name__ == "__main__":
+    main()
